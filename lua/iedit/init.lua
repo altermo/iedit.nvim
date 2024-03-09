@@ -104,7 +104,6 @@ function M.stop(id,buf)
         end
         data[key]=nil
     end
-    vim.lg(data)
     vim.b[buf].iedit_data=data
 end
 
