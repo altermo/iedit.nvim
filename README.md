@@ -7,10 +7,10 @@ Edit one occurrence of text and simultaneously have other selected occurrences e
 1. You start iedit with `iedit.select()`.
 2. The text which will be used is word-under-cursor in normal mode, and visually selected in visual mode.
 3. Selection-mode will be started. (where you can chose which occurrences of text you want to iedit)
-4. You select which instances of text you want to iedit.
-5. You mapping corresponding to done in selection-mode, thus starting iedit-mode.
-5. You do some editing.
-6. You stop iedit-mode with `iedit.stop()`.
+4. You select which instances of text you want to iedit. (see config for keymaps)
+5. You press `<esc>` to exit selection-mode and start iedit-mode.
+6. You do some editing.
+7. You stop iedit-mode with `iedit.stop()`.
 
 ## Setup & Config
 Using `iedit.setup()` is **not required**, it just changes the config.
