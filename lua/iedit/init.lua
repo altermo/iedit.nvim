@@ -53,7 +53,8 @@ function M.setup(config)
     merge(M.default_config,config)
 end
 
-function M.select()
+function M.select(_opts)
+    _opts=_opts or {}
     M.stop()
     local range={}
     if vim.fn.mode()=='n' then
@@ -84,8 +85,22 @@ function M.select()
     else
         error(('mode `%s` not supported'):format(vim.fn.mode()))
     end
-    local ranges=require'iedit.selector'.start(range,M.config.select)
+    local ranges
+    if _opts.all then
+        local text=vim.api.nvim_buf_get_text(0,range[1],range[2],range[3],range[4],{})
+        if #text==1 and text[1]=='' then
+            vim.notify('No text selected',vim.log.levels.WARN)
+            return
+        end
+        ranges=require'iedit.finder'.find_all_ocurances(0,text)
+    else
+        ranges=require'iedit.selector'.start(range,M.config.select)
+    end
     require'iedit.iedit'.start(ranges,M.config)
+end
+
+function M.select_all()
+    M.select{all=true}
 end
 
 function M.stop(id,buf)

@@ -12,6 +12,11 @@ Edit one occurrence of text and simultaneously have other selected occurrences e
 6. You do some editing.
 7. You stop iedit-mode with `iedit.stop()`.
 
+## Functions
++ `iedit.select()` - start selection for iedit; text will be word-under-cursor in normal mode and visually selected in visual mode.
++ `iedit.select_all()` - select all for iedit; text will be same as `iedit.select()`
++ `iedit.stop()` - stop iedit
+
 ## Setup & Config
 Using `iedit.setup()` is **not required**, it just changes the config.
 The default config is:

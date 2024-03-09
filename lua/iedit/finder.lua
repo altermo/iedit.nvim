@@ -35,19 +35,18 @@ function M.find_next(buf,pos,text)
     end
 end
 function M.find_all_ocurances(buf,text,curpos)
-    local row,col=unpack(curpos)
     local pos={0,0}
     local ranges={}
     local idx
     while true do
         local range=M.find_next(buf,pos,text)
         if range==nil then break end
-        if not idx and (range[3]>row or (range[3]==row and range[4]>col)) then
+        if curpos and not idx and (range[3]>curpos[1] or (range[3]==curpos[1] and range[4]>curpos[2])) then
             idx=#ranges+1
         end
         table.insert(ranges,range)
         pos={range[3],range[4]}
     end
-    return ranges,idx or 1
+    return ranges,curpos and (idx or 1) or nil
 end
 return M
