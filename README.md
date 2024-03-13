@@ -17,6 +17,8 @@ Edit one occurrence of text and simultaneously have other selected occurrences e
 + `iedit.select_all()` - select all for iedit; text will be same as `iedit.select()`
 + `iedit.stop()` - stop iedit
 
+Whenever a new selection is started, `iedit.stop()` is called automatically.
+
 ## Setup & Config
 Using `iedit.setup()` is **not required**, it just changes the config.
 The default config is:
