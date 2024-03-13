@@ -122,4 +122,12 @@ function M.stop(id,buf)
     vim.b[buf].iedit_data=data
 end
 
+function M.toggle(_opts)
+    if vim.tbl_isempty(vim.b.iedit_data or {}) then
+        M.select(_opts)
+    else
+        M.stop()
+    end
+end
+
 return M

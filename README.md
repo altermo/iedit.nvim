@@ -16,6 +16,7 @@ Edit one occurrence of text and simultaneously have other selected occurrences e
 + `iedit.select()` - start selection for iedit; text will be word-under-cursor in normal mode and visually selected in visual mode.
 + `iedit.select_all()` - select all for iedit; text will be same as `iedit.select()`
 + `iedit.stop()` - stop iedit
++ `iedit.toggle()` - if iedit is on runs `iedit.stop()`, otherwise runs `iedit.select()`
 
 Whenever a new selection is started, `iedit.stop()` is called automatically.
 
