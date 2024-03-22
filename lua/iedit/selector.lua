@@ -57,9 +57,12 @@ function M.start_loop(ranges,idx,config)
         local save_cursor=vim.api.nvim_win_get_cursor(0)
         vim.api.nvim_win_set_cursor(0,{ranges[idx][1]+1,0})
         vim.cmd.norm{'zz',bang=true}
+        local hlsearch=vim.v.hlsearch
+        vim.v.hlsearch=0
         vim.cmd.redraw{bang=true}
-        vim.api.nvim_win_set_cursor(0,save_cursor)
         local s,charstr=pcall(vim.fn.getcharstr)
+        vim.api.nvim_win_set_cursor(0,save_cursor)
+        vim.v.hlsearch=hlsearch
         if not s then
             clean()
             error(charstr)
