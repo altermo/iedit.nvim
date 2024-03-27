@@ -23,14 +23,14 @@ function M.find_next(buf,pos,text)
             tline=vim.pesc(tline)
             if trow~=1 then tline='^'..tline end
             if trow~=#text then tline=tline..'$' end
-            if not lines[row+trow-1] or not lines[row+trow-1]:find(tline,row==1 and pos[1] or 1) then
+            if not lines[row+trow-1] or not lines[row+trow-1]:find(tline,trow==1 and pos[2]+1 or 1) then
                 flag=false
                 break
             end
         end
 
         if flag then
-            return {row+pos[1]-1,#lines[row]-#text[1],row+pos[1],#text[#text]}
+            return {row+pos[1]-1,#lines[row]-#text[1],row+pos[1]+#text-2,#text[#text]}
         end
     end
 end
