@@ -23,8 +23,8 @@ M.default_config={
 
 M.config=vim.deepcopy(M.default_config)
 
-local function merge(origin,new)
-    if type(origin)~='table' and type(new)~='table' then
+local function merge(origin,new,_not_table)
+    if _not_table or (type(origin)~='table' and type(new)~='table') then
         return vim.F.if_nil(new,origin)
     end
     if new==nil then return origin end
@@ -40,11 +40,7 @@ local function merge(origin,new)
     end
     local ret={}
     for k,v in pairs(keys) do
-        if getmetatable(origin).__t then
-            ret[k]=vim.F.if_nil(v[2],v[1])
-        else
-            ret[k]=merge(v[1],v[2])
-        end
+        ret[k]=merge(v[1],v[2],(getmetatable(origin[k]) or {}).__t)
     end
     return ret
 end
