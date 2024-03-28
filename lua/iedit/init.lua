@@ -23,7 +23,20 @@ M.default_config={
 
 M.config=vim.deepcopy(M.default_config)
 
-local function merge(origin,new,_not_table)
+local function merge(origin,new,_not_table,_opt_path)
+    _opt_path=_opt_path or 'config'
+    if origin==nil and new~=nil then
+        error(('\n\n\n'..[[
+        Configuration for the plugin 'iedit' is incorrect.
+        The option `%s` is set to `%s`, but it should be `nil` (e.g. not set).
+        ]]..'\n'):format(_opt_path,vim.inspect(new)))
+    elseif new~=nil and type(origin)~=type(new) then
+        error(('\n\n\n'..[[
+        Configuration for the plugin 'iedit' is incorrect.
+        The option `%s` has the value `%s`, which has the type `%s`.
+        However, that option should have the type `%s` (or `nil`).
+        ]]..'\n'):format(_opt_path,vim.inspect(new),type(new),type(origin)))
+    end
     if _not_table or (type(origin)~='table' and type(new)~='table') then
         return vim.F.if_nil(new,origin)
     end
@@ -40,12 +53,19 @@ local function merge(origin,new,_not_table)
     end
     local ret={}
     for k,v in pairs(keys) do
-        ret[k]=merge(v[1],v[2],(getmetatable(origin[k]) or {}).__t)
+        ret[k]=merge(v[1],v[2],(getmetatable(origin[k]) or {}).__t,_opt_path..'.'..k)
     end
     return ret
 end
 
 function M.setup(config)
+    if config~=nil and type(config)~='table' then
+        error(('\n\n\n'..[[
+        Configuration for the plugin 'iedit' is incorrect.
+        The configuration is `%s`, which has the type `%s`.
+        However, the configuration should be a table.
+        ]]..'\n'):format(vim.inspect(config),type(config)))
+    end
     merge(M.default_config,config)
 end
 
