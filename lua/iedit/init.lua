@@ -146,23 +146,28 @@ function M.toggle(_opts)
     end
 end
 
-function M._goto_next(wrap)
+function M._goto_next(wrap,back,_first)
     local ns=require'iedit.iedit'.ns
     local data=vim.b.iedit_data or {}
     if vim.tbl_isempty(data) then return end
     local _,ids=next(data)
     local cursor=vim.api.nvim_win_get_cursor(0)
+    if back then
+        local t={}
+        for i=#ids,1,-1 do table.insert(t,ids[i]) end
+        ids=t
+    end
     for _,id in pairs(ids) do
         local mark=vim.api.nvim_buf_get_extmark_by_id(0,ns,id,{})
-        if (cursor[2]<mark[2] and (cursor[1]-1)==mark[1]) or (cursor[1]-1)<mark[1] then
+        if ((not back) and (_first or (cursor[2]<mark[2] and (cursor[1]-1)==mark[1]) or (cursor[1]-1)<mark[1]))
+            or (back and (_first or (cursor[2]>mark[2] and (cursor[1]-1)==mark[1]) or (cursor[1]-1)>mark[1])) then
             if pcall(vim.api.nvim_win_set_cursor,0,{mark[1]+1,mark[2]}) then
                 return
             end
         end
     end
     if wrap and not vim.tbl_isempty(ids) then
-        local mark=vim.api.nvim_buf_get_extmark_by_id(0,ns,ids[1],{})
-        pcall(vim.api.nvim_win_set_cursor,0,{mark[1]+1,mark[2]})
+        M._goto_next(wrap,back,true)
     end
 end
 
