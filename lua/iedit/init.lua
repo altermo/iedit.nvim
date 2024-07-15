@@ -155,13 +155,14 @@ function M._goto_next(wrap)
     for _,id in pairs(ids) do
         local mark=vim.api.nvim_buf_get_extmark_by_id(0,ns,id,{})
         if (cursor[2]<mark[2] and (cursor[1]-1)==mark[1]) or (cursor[1]-1)<mark[1] then
-            vim.api.nvim_win_set_cursor(0,{mark[1]+1,mark[2]})
-            return
+            if pcall(vim.api.nvim_win_set_cursor,0,{mark[1]+1,mark[2]}) then
+                return
+            end
         end
     end
     if wrap and not vim.tbl_isempty(ids) then
         local mark=vim.api.nvim_buf_get_extmark_by_id(0,ns,ids[1],{})
-        vim.api.nvim_win_set_cursor(0,{mark[1]+1,mark[2]})
+        pcall(vim.api.nvim_win_set_cursor,0,{mark[1]+1,mark[2]})
     end
 end
 
