@@ -166,7 +166,7 @@ function M._goto_next(wrap,back,_first)
             end
         end
     end
-    if wrap and not vim.tbl_isempty(ids) then
+    if wrap and not vim.tbl_isempty(ids) and not _first then
         M._goto_next(wrap,back,true)
     end
 end
