@@ -55,6 +55,9 @@ The default config is:
 ```
 Set `merge=false` in a (non-array) table in the config to **not merge** with the default config.
 
+## Alternatives
+- [viedit](https://github.com/viocost/viedit)
+
 ## Donations
 If you want to donate then you need to find the correct link (hint: catorce):
 + [00]() [10]() [20]() [30]() [40]() [50]()
