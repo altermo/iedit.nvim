@@ -10,7 +10,7 @@ local ns=vim.api.nvim_create_namespace('iedit')
 
 ---@param text string[]
 ---@return Range4[]
-function find_all(buf, text)
+local function find_all(buf, text)
   local ranges={}
 
   local row=1
@@ -26,8 +26,8 @@ function find_all(buf, text)
       local pat=vim.pesc(tline)
       if trow~=1 then pat='^'..pat end
       if trow~=#text then pat=pat..'$' end
-      local fcol=assert(lines[row+trow-1]):find(pat,trow==1 and col or 1) --[[@as integer]]
-      if not fcol then
+      local fcol,len=assert(lines[row+trow-1]):find(pat,trow==1 and col or 1) --[[@as integer]]
+      if not fcol or len==0 then
         col=1
         row=row+1
         goto continue
