@@ -278,7 +278,7 @@ function M.restrict_visual()
   end
 
   local start_row=vim.fn.line'.'
-  local end_row=vim.fn.line'.'
+  local end_row=vim.fn.line'v'
 
   if start_row>end_row then
     start_row,end_row=end_row,start_row
